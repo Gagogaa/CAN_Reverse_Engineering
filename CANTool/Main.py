@@ -4,7 +4,6 @@ import argparse
 import re
 from pathlib import Path
 
-from FileBoi import FileBoi
 from Sample import Sample
 
 _DESCRIPTION = '''
@@ -14,7 +13,6 @@ _VERSION = '0.0.1'
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(description = _DESCRIPTION)
 
     parser.add_argument("-V", "--version", help="show program version", action="store_true")
@@ -36,9 +34,6 @@ if __name__ == "__main__":
     else:
         for file_index, file in enumerate(args.input_files):
             if re.match('.*\.log', file):
-                # filenames using ../../ and the like are really troublesome here
-                print('input file: ' + file)
-                print('abs input file: ' + str(Path(file).resolve()))
                 samples.append(Sample(make="",
                                       model="",
                                       year="",
@@ -47,17 +42,13 @@ if __name__ == "__main__":
                                       kfold_n=args.kfold_n))
 
 
+    # TODO This comment came with the original code I'm wondering if it means that the Validation step later in the process is not working
     # Cross validation parameters for finding an optimal tokenization inversion distance threshold -- NOT WORKING?
+
+    # TODO Remove current_vehicle_number
     current_vehicle_number = 0
 
-    # Okay so it does the computation twice?? What the fuck
-    # good_boi = FileBoi()
-    # samples = good_boi.go_fetch(args.kfold_n)
-
-    # for key, sample_list in samples.items():  # type: tuple, list
-    for sample in samples:  # type: Sample
-        # TODO This if for each car then?
-        # print(current_vehicle_number)
+    for sample in samples:
         print("\nData import and Pre-Processing for " + sample.output_vehicle_dir)
         id_dict, j1979_dict, pid_dict = sample.pre_process()
         if j1979_dict:
@@ -77,4 +68,3 @@ if __name__ == "__main__":
         cluster_dict, linkage_matrix = sample.cluster_signals(corr_matrix)
         sample.plot_clusters(cluster_dict, signal_dict, bool(j1979_dict), vehicle_number=str(current_vehicle_number))
         sample.plot_dendrogram(linkage_matrix, vehicle_number=str(current_vehicle_number))
-        # current_vehicle_number += 1

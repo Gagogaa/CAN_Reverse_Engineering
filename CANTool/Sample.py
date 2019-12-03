@@ -10,6 +10,7 @@ from os import chdir, mkdir, path, remove
 from pickle import dump, load
 from numpy import ndarray, zeros, float16
 from pandas import DataFrame
+from pathlib import Path
 
 import os
 from sys import argv
@@ -28,7 +29,7 @@ pickle_linkage_filename:    str = 'pickleLinkage.p'
 pickle_combined_df_filename: str = 'pickleCombinedDataFrame.p'
 csv_all_signals_filename:   str = 'complete_correlation_matrix.csv'
 pickle_timer_filename:      str = 'pickleTimer.p'
-pid_file = 'OBD2_pids.csv'      # TODO Work on this pid file thing for evaluation... it still needs to work
+pid_file = str(os.path.dirname(Path(argv[0]).resolve())) + '/OBD2_pids.csv'
 working_dir = os.getcwd()
 
 dump_to_pickle:             bool = True
