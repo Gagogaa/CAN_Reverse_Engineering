@@ -11,7 +11,7 @@ figure_format:  str = "png"  # png works well for quickly previewing results and
 figure_dpi:     int = 300
 figure_transp:  bool = False
 
-arb_id_folder:  str = 'figures'
+arb_id_folder:  str = 'tangs'
 cluster_folder: str = 'clusters'
 j1979_folder:   str = 'j1979'
 threshold_folder: str = 'threshold_heatmaps'

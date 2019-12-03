@@ -148,11 +148,12 @@ def generate_signals(a_timer: PipelineTimer,
                      signal_pickle_filename: str,
                      normalize_strategy,
                      force=False):
-    if force and path.isfile(signal_pickle_filename):
-        remove(signal_pickle_filename)
-    if path.isfile(signal_pickle_filename):
-            print("\nSignal generation already completed and forcing is turned off. Using pickled data...")
-            return load(open(signal_pickle_filename, "rb"))
+
+    # if force and path.isfile(signal_pickle_filename):
+    #     remove(signal_pickle_filename)
+    # if path.isfile(signal_pickle_filename):
+    #         print("\nSignal generation already completed and forcing is turned off. Using pickled data...")
+    #         return load(open(signal_pickle_filename, "rb"))
 
     a_timer.start_function_time()
 

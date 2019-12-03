@@ -37,8 +37,6 @@ class PreProcessor:
         convert_dict = {'time': fix_time, 'id': hex2int, 'dlc': hex2int, 'b0': hex2int, 'b1': hex2int, 'b2': hex2int,
                         'b3': hex2int, 'b4': hex2int, 'b5': hex2int, 'b6': hex2int, 'b7': hex2int}
 
-        print("\nReading in " + self.data_filename + "...")
-
         a_timer.start_function_time()
 
         self.data = read_csv(filename,
@@ -57,7 +55,6 @@ class PreProcessor:
 
     def import_pid_dict(self, filename):
         # print("\nSample of the original data:")
-        print("import obd2 dict: " + filename)
 
         # print(self.data.head(5), "\n")
         def pid(x):
@@ -72,8 +69,6 @@ class PreProcessor:
 
         # Used by pd.read_csv to apply the functions to the respective column vectors in the .csv file
         convert_dict = {'pid': pid, 'title': title, 'formula': formula}
-
-        print("\nReading in " + self.data_filename + "...")
 
         return read_csv(filename,
                         header=None,
@@ -103,24 +98,26 @@ class PreProcessor:
         id_dictionary = {}
         j1979_dictionary = {}
 
-        if force:
+        # if force:
             # Remove any existing pickled Arb ID and J1979 dictionaries and create new ones based on data_filename.
-            if path.isfile(self.id_output_filename):
-                remove(self.id_output_filename)
-            if path.isfile(self.j1979_output_filename):
-                remove(self.j1979_output_filename)
-            self.import_csv(a_timer, self.data_filename)
-        elif path.isfile(self.id_output_filename):
-            # This logic assumes that there will be a J1979 dict if and only if there is an Arb ID dict
-            print("\tLoading Arb ID dictionary from pickled data: " + getcwd() + "\\" + self.id_output_filename)
-            id_dictionary = load(open(self.id_output_filename, "rb"))
-            if path.isfile(self.j1979_output_filename):
-                print("\tLoading J1979 dictionary from pickled data: " + getcwd() + "\\" + self.j1979_output_filename)
-                j1979_dictionary = load(open(self.j1979_output_filename, "rb"))
-            print("\tSet 'force_pre_processing' in Sample.py to True to re-compute instead...")
-            return id_dictionary, j1979_dictionary
-        else:
-            self.import_csv(a_timer, self.data_filename)
+            # if path.isfile(self.id_output_filename):
+            #     remove(self.id_output_filename)
+            # if path.isfile(self.j1979_output_filename):
+            #     remove(self.j1979_output_filename)
+        # TODO Why do we have to import this?
+        self.import_csv(a_timer, self.data_filename)
+
+        # elif path.isfile(self.id_output_filename):
+        #     # This logic assumes that there will be a J1979 dict if and only if there is an Arb ID dict
+        #     print("\tLoading Arb ID dictionary from pickled data: " + getcwd() + "\\" + self.id_output_filename)
+        #     id_dictionary = load(open(self.id_output_filename, "rb"))
+        #     if path.isfile(self.j1979_output_filename):
+        #         print("\tLoading J1979 dictionary from pickled data: " + getcwd() + "\\" + self.j1979_output_filename)
+        #         j1979_dictionary = load(open(self.j1979_output_filename, "rb"))
+        #     print("\tSet 'force_pre_processing' in Sample.py to True to re-compute instead...")
+        #     return id_dictionary, j1979_dictionary
+        # else:
+        #     self.import_csv(a_timer, self.data_filename)
 
         a_timer.start_function_time()
 

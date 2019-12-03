@@ -15,17 +15,17 @@ def generate_correlation_matrix(a_timer:                          PipelineTimer,
                                 combined_df_filename:             str = '',
                                 signal_dict:                      dict = None,
                                 force:                            bool = False):
-    if force:
-        if path.isfile(csv_signals_correlation_filename):
-            remove(csv_signals_correlation_filename)
-        if path.isfile(combined_df_filename):
-            remove(combined_df_filename)
-    if path.isfile(csv_signals_correlation_filename) and path.isfile(combined_df_filename) and not force:
-        print("\nA signal correlation matrix and combined matrix appears to exist and forcing is turned off. Using " +
-              csv_signals_correlation_filename + " and " + combined_df_filename)
-        # literal_eval converts the textual row/col tuple representation back to actual tuple data structures
-        return [read_csv(csv_signals_correlation_filename, index_col=0).rename(index=literal_eval, columns=literal_eval),
-                load(open(combined_df_filename, "rb"))]
+    # if force:
+    #     if path.isfile(csv_signals_correlation_filename):
+    #         remove(csv_signals_correlation_filename)
+    #     if path.isfile(combined_df_filename):
+    #         remove(combined_df_filename)
+    # if path.isfile(csv_signals_correlation_filename) and path.isfile(combined_df_filename) and not force:
+    #     print("\nA signal correlation matrix and combined matrix appears to exist and forcing is turned off. Using " +
+    #           csv_signals_correlation_filename + " and " + combined_df_filename)
+    #     # literal_eval converts the textual row/col tuple representation back to actual tuple data structures
+    #     return [read_csv(csv_signals_correlation_filename, index_col=0).rename(index=literal_eval, columns=literal_eval),
+    #             load(open(combined_df_filename, "rb"))]
 
     non_static_signals_dict = {}
     largest_index = []
@@ -64,14 +64,14 @@ def signal_clustering(corr_matrix:      DataFrame,
                       cluster_pickle:   str = "",
                       linkage_pickle:   str = "",
                       force:            bool = False):
-    if force:
-        if path.isfile(cluster_pickle):
-            remove(cluster_pickle)
-        if path.isfile(linkage_pickle):
-            remove(linkage_pickle)
-    if path.isfile(cluster_pickle) and path.isfile(linkage_pickle):
-        print("\nSignal clustering already completed and forcing is turned off. Using pickled data...")
-        return [load(open(cluster_pickle, "rb")), load(open(linkage_pickle, "rb"))]
+    # if force:
+    #     if path.isfile(cluster_pickle):
+    #         remove(cluster_pickle)
+    #     if path.isfile(linkage_pickle):
+    #         remove(linkage_pickle)
+    # if path.isfile(cluster_pickle) and path.isfile(linkage_pickle):
+    #     print("\nSignal clustering already completed and forcing is turned off. Using pickled data...")
+    #     return [load(open(cluster_pickle, "rb")), load(open(linkage_pickle, "rb"))]
 
     # Remove negative values from the correlation matrix and invert the values
     corr_matrix.where(corr_matrix > 0, 0, inplace=True)
@@ -96,13 +96,13 @@ def subset_selection(a_timer:       PipelineTimer,
                      force:         bool = False,
                      subset_size:   float = 0.25) -> DataFrame:
 
-    if path.isfile(subset_pickle):
-        if force:
-            # Remove any existing pickled Signal dictionary and create one.
-            remove(subset_pickle)
-        else:
-            print("\nSubset selection already completed and forcing is turned off. Using pickled data...")
-            return load(open(subset_pickle, "rb"))
+    # if path.isfile(subset_pickle):
+    #     if force:
+    #         # Remove any existing pickled Signal dictionary and create one.
+    #         remove(subset_pickle)
+    #     else:
+    #         print("\nSubset selection already completed and forcing is turned off. Using pickled data...")
+    #         return load(open(subset_pickle, "rb"))
 
     a_timer.start_function_time()
 
@@ -268,20 +268,21 @@ def label_propagation(a_timer:                          PipelineTimer,
                       cluster_dict:                     dict = None,
                       correlation_threshold:            float = 0.8,
                       force:                            bool = False):
-    if path.isfile(pickle_all_signals_df_filename) and path.isfile(csv_signals_correlation_filename):
-        if force:
-            # Remove any existing data.
-            remove(pickle_all_signals_df_filename)
-            remove(csv_signals_correlation_filename)
-            remove(pickle_clusters_filename)
-        else:
-            print("\nA DataFrame and correlation matrix for label propagation appears to exist and forcing is turned "
-                  "off. Using " + pickle_all_signals_df_filename + ", " + csv_signals_correlation_filename + ", and "
-                  + pickle_clusters_filename)
-            return [load(open(pickle_all_signals_df_filename, "rb")),
-                    read_csv(csv_signals_correlation_filename, index_col=0).rename(index=literal_eval,
-                                                                                   columns=literal_eval),
-                    load(open(pickle_clusters_filename, "rb"))]
+
+    # if path.isfile(pickle_all_signals_df_filename) and path.isfile(csv_signals_correlation_filename):
+    #     if force:
+    #         # Remove any existing data.
+    #         remove(pickle_all_signals_df_filename)
+    #         remove(csv_signals_correlation_filename)
+    #         remove(pickle_clusters_filename)
+    #     else:
+    #         print("\nA DataFrame and correlation matrix for label propagation appears to exist and forcing is turned "
+    #               "off. Using " + pickle_all_signals_df_filename + ", " + csv_signals_correlation_filename + ", and "
+    #               + pickle_clusters_filename)
+    #         return [load(open(pickle_all_signals_df_filename, "rb")),
+    #                 read_csv(csv_signals_correlation_filename, index_col=0).rename(index=literal_eval,
+    #                                                                                columns=literal_eval),
+    #                 load(open(pickle_clusters_filename, "rb"))]
 
     a_timer.start_function_time()
 
@@ -364,22 +365,25 @@ def j1979_signal_labeling(a_timer:               PipelineTimer,
                           signal_dict:           dict = None,
                           correlation_threshold: float = 0.8,
                           force:                 bool = False) -> [dict, DataFrame]:
-    if force:
-        if path.isfile(j1979_corr_filename):
-            remove(j1979_corr_filename)
-        if path.isfile(signal_filename):
-            remove(signal_filename)
-    if path.isfile(j1979_corr_filename):
-        print("\nA J1979 correlation matrix for signal labeling appears to exist and forcing is turned off. Using "
-              + j1979_corr_filename + " and the signal dictionary passed to j1979_signal_labeling().")
-        return signal_dict, load(open(j1979_corr_filename, "rb"))
+
+    # if force:
+    #     if path.isfile(j1979_corr_filename):
+    #         remove(j1979_corr_filename)
+    #     if path.isfile(signal_filename):
+    #         remove(signal_filename)
+    # if path.isfile(j1979_corr_filename):
+    #     print("\nA J1979 correlation matrix for signal labeling appears to exist and forcing is turned off. Using "
+    #           + j1979_corr_filename + " and the signal dictionary passed to j1979_signal_labeling().")
+    #     return signal_dict, load(open(j1979_corr_filename, "rb"))
+
     # If a signal dictionary has already been pickled, j1979 correlation has not been pickled, and there is J1979 data
     # in this sample, this implies that the pickled signal dictionary does not include the appropriate J1979 tags on the
     # Signal objects. Delete that pickled dictionary, tag Signals in signal_dict, and then re-pickle that dictionary in
     # Sample.py.
-    elif path.isfile(signal_filename) and j1979_dict:
-        if path.isfile(signal_filename):
-            remove(signal_filename)
+
+    # elif path.isfile(signal_filename) and j1979_dict:
+    #     if path.isfile(signal_filename):
+    #         remove(signal_filename)
 
     latest_start_index = 0.0
     earliest_end_index = 99999999999999.9
